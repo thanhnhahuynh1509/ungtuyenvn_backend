@@ -76,6 +76,19 @@ public class NguoiDungController extends BaseController<NguoiDung, Long> {
         return ResponseEntity.ok(result);
     }
 
+    @PostMapping("/{id}/cv")
+    public String capNhatCV(@PathVariable long id, @RequestPart MultipartFile cvFile) throws IOException {
+
+        File file = new File(NguoiDung.cvPath + "/" + id);
+        if(!file.exists()) {
+            file.mkdir();
+        }
+        String path = file.getAbsolutePath();
+        FileUtils.upload(path, cvFile.getOriginalFilename(), cvFile);
+        NguoiDung nguoiDung = nguoiDungService.themVaCapNhatCV(id, NguoiDung.cvPath + "/" + id + "/" + cvFile.getOriginalFilename());
+        return nguoiDung.getCv();
+    }
+
     @PostMapping(value = "/{id}/du_an")
     public ResponseEntity<NguoiDungDTO> luuDuAnNguoiDung(@PathVariable long id,
                                                          @RequestPart(required = false) MultipartFile primaryImageFile,
@@ -151,6 +164,8 @@ public class NguoiDungController extends BaseController<NguoiDung, Long> {
             duAn.getHinhAnhDuAns().addAll(hinhAnhDuAns);
         }
 
+        duAnDB.setTenDuAn(duAn.getTenDuAn());
+        duAnDB.setMoTa(duAn.getMoTa());
         duAnDB.setHinhAnhDuAns(duAn.getHinhAnhDuAns());
 
         return ResponseEntity.ok(modelMapper.map(nguoiDungService.themVaCapNhatDuAn(id, duAnDB), NguoiDungDTO.class));

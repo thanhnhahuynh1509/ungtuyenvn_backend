@@ -22,6 +22,7 @@ public class NguoiDungDTO {
     private String tieuDeUngTuyen;
     private String lyDoLamViecVoiToi;
     private LoaiNguoiDung loaiNguoiDung;
+    private String cv;
     private List<DuAn> duAns = new ArrayList<>();
     private List<ThongBao> thongBaos = new ArrayList<>();
     private List<HoSoLamViec> hoSoLamViecs = new ArrayList<>();
@@ -179,5 +180,13 @@ public class NguoiDungDTO {
 
     public void setKyNangLamViecs(List<KyNang> kyNangLamViecs) {
         this.kyNangLamViecs = kyNangLamViecs;
+    }
+
+    public String getCv() {
+        return cv;
+    }
+
+    public void setCv(String cv) {
+        this.cv = cv;
     }
 }

@@ -1,5 +1,8 @@
 package com.doanchuyennganh.ungtuyenvn.entity;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -8,6 +11,7 @@ import java.util.*;
 public class NguoiDung {
 
     public static final String imagePath = "assets/common/image/nguoi_dung";
+    public static final String cvPath = "assets/common/cv";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,18 +24,18 @@ public class NguoiDung {
     private String matKhau;
 
     @Column(nullable = false)
-    private String ho;
+    private String ho = "";
 
     @Column(nullable = false)
-    private String ten;
+    private String ten = "";
 
     private String avatar;
 
     @Column(name = "mo_ta", columnDefinition = "TEXT")
-    private String moTa;
+    private String moTa = "";
 
     @Column(name = "ngay_sinh")
-    private String ngaySinh;
+    private String ngaySinh = "";
 
     @Column(name = "trang_thai")
     private String trangThai;
@@ -43,10 +47,13 @@ public class NguoiDung {
     private String thanhPho;
 
     @Column(name = "tieu_de_ung_tuyen")
-    private String tieuDeUngTuyen;
+    private String tieuDeUngTuyen = "";
 
     @Column(name = "ly_do_lam_viec_voi_toi", columnDefinition = "TEXT")
-    private String lyDoLamViecVoiToi;
+    private String lyDoLamViecVoiToi = "";
+
+    @Column(columnDefinition = "TEXT")
+    private String cv;
 
     // Foreign Keys
     @ManyToOne
@@ -54,22 +61,28 @@ public class NguoiDung {
     private LoaiNguoiDung loaiNguoiDung;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name = "ma_nguoi_dung")
     private List<DuAn> duAns = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name = "ma_nguoi_dung")
     private List<ThongBao> thongBaos = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name = "ma_nguoi_dung")
     private List<HoSoLamViec> hoSoLamViecs = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name = "ma_nguoi_dung")
     private List<KyNang> kyNangLamViecs = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name = "ma_nguoi_dung")
     private List<ThongTinLienLac> thongTinLienLacs = new ArrayList<>();
 
@@ -77,6 +90,7 @@ public class NguoiDung {
     @JoinTable(name = "ChuyenMonNguoiDung",
     joinColumns = @JoinColumn(name = "ma_nguoi_dung"),
     inverseJoinColumns = @JoinColumn(name = "ma_chuyen_mon"))
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Set<ChuyenMon> chuyenMons = new LinkedHashSet<>();
 
     public long getId() {
@@ -173,7 +187,8 @@ public class NguoiDung {
     }
 
     public void setThongBaos(List<ThongBao> thongBaos) {
-        this.thongBaos = thongBaos;
+        this.thongBaos.clear();
+        this.thongBaos.addAll(thongBaos);
     }
 
     public List<HoSoLamViec> getHoSoLamViecs() {
@@ -242,5 +257,13 @@ public class NguoiDung {
     public void setKyNangLamViecs(List<KyNang> kyNangLamViecs) {
         this.kyNangLamViecs.clear();
         this.kyNangLamViecs.addAll(kyNangLamViecs);
+    }
+
+    public String getCv() {
+        return cv;
+    }
+
+    public void setCv(String cv) {
+        this.cv = cv;
     }
 }

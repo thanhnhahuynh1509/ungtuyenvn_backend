@@ -11,7 +11,7 @@ public class WebMVCConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        String dir = "assets/common/image";
+        String dir = "assets/common";
         String absolutePath = new File(dir).getAbsolutePath();
         registry.addResourceHandler("/" + dir + "/**").addResourceLocations("file:/" + absolutePath + "/");
     }

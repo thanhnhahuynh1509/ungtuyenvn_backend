@@ -1,15 +1,14 @@
 package com.doanchuyennganh.ungtuyenvn.services;
 
-import com.doanchuyennganh.ungtuyenvn.entity.ChuyenMon;
-import com.doanchuyennganh.ungtuyenvn.entity.DuAn;
-import com.doanchuyennganh.ungtuyenvn.entity.LoaiNguoiDung;
-import com.doanchuyennganh.ungtuyenvn.entity.NguoiDung;
+import com.doanchuyennganh.ungtuyenvn.entity.*;
 import com.doanchuyennganh.ungtuyenvn.exception.model.UserExistsException;
 import com.doanchuyennganh.ungtuyenvn.repository.NguoiDungRepository;
 import com.doanchuyennganh.ungtuyenvn.utils.FileUtils;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class NguoiDungService extends BaseService<NguoiDung, Long> {
@@ -34,13 +33,12 @@ public class NguoiDungService extends BaseService<NguoiDung, Long> {
     @Override
     public NguoiDung update(Long id, NguoiDung model) {
         NguoiDung nguoiDung = getSingleResultById(id);
-        nguoiDung.setAvatar(model.getAvatar());
         nguoiDung.setCongKhai(model.isCongKhai());
         nguoiDung.setHo(model.getHo());
         nguoiDung.setTen(model.getTen());
         nguoiDung.setMoTa(model.getMoTa());
         nguoiDung.setNgaySinh(model.getNgaySinh());
-        nguoiDung.setTrangThai(model.getMoTa());
+        nguoiDung.setTrangThai(model.getTrangThai());
         nguoiDung.setTieuDeUngTuyen(model.getTieuDeUngTuyen());
         nguoiDung.setThanhPho(model.getThanhPho());
         nguoiDung.setLoaiNguoiDung(model.getLoaiNguoiDung());
@@ -49,6 +47,36 @@ public class NguoiDungService extends BaseService<NguoiDung, Long> {
         nguoiDung.setKyNangLamViecs(model.getKyNangLamViecs());
         nguoiDung.setChuyenMons(model.getChuyenMons());
         nguoiDung.setThongTinLienLacs(model.getThongTinLienLacs());
+        if(nguoiDung.getAvatar() != null
+                && nguoiDung.getAvatar().length() > 0
+                && nguoiDung.getMoTa().length() > 0
+                && nguoiDung.getChuyenMons().size() > 0
+                && nguoiDung.getHoSoLamViecs().size() > 0
+                && nguoiDung.getLyDoLamViecVoiToi().length() > 0
+                && nguoiDung.getTieuDeUngTuyen().length() > 0
+                && nguoiDung.getKyNangLamViecs().size() > 0
+                && nguoiDung.getThongTinLienLacs().size() > 0
+                && nguoiDung.getTen().length() > 0
+                && nguoiDung.getHo().length() > 0) {
+            nguoiDung.setCongKhai(true);
+        } else {
+            nguoiDung.setCongKhai(false);
+        }
+        return baseRepository.save(nguoiDung);
+    }
+
+    public NguoiDung themVaCapNhatCV(Long id, String cv) {
+        NguoiDung nguoiDung = getSingleResultById(id);
+        if(nguoiDung.getCv() != null) {
+            FileUtils.delete(nguoiDung.getCv());
+        }
+        nguoiDung.setCv(cv);
+        return baseRepository.save(nguoiDung);
+    }
+
+    public NguoiDung themThongBao(long id, ThongBao thongBao) {
+        NguoiDung nguoiDung = getSingleResultById(id);
+        nguoiDung.getThongBaos().add(thongBao);
         return baseRepository.save(nguoiDung);
     }
 
@@ -81,7 +109,9 @@ public class NguoiDungService extends BaseService<NguoiDung, Long> {
 
     public NguoiDung capNhatHinhAnh(long id, String imagePath) {
         NguoiDung nguoiDung = getSingleResultById(id);
-        FileUtils.delete(nguoiDung.getAvatar());
+        if(nguoiDung.getAvatar() != null) {
+            FileUtils.delete(nguoiDung.getAvatar());
+        }
         nguoiDung.setAvatar(imagePath);
         return baseRepository.save(nguoiDung);
     }

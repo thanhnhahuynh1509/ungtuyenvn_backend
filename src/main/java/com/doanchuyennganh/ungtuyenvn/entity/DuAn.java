@@ -1,5 +1,8 @@
 package com.doanchuyennganh.ungtuyenvn.entity;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +30,7 @@ public class DuAn {
 
     // Foreign Keys
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name = "ma_du_an")
     private List<HinhAnhDuAn> hinhAnhDuAns = new ArrayList<>();
 

@@ -6,6 +6,7 @@ import com.doanchuyennganh.ungtuyenvn.services.NguoiDungService;
 import org.apache.tomcat.util.file.ConfigurationSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -39,6 +40,8 @@ public class WebSecurityConfiguration {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/tai_khoan/**").permitAll()
+                .antMatchers("/ws/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/nguoi_dung").permitAll()
                 .antMatchers("/assets/**").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
