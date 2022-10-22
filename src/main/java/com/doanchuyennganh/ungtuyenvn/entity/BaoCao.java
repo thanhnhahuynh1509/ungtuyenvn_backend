@@ -20,6 +20,10 @@ public class BaoCao {
     @Column(name = "yeu_cau")
     private String yeuCau;
 
+    @ManyToOne
+    @JoinColumn(name = "ma_nguoi_dung")
+    private NguoiDung nguoiDung;
+
     public long getId() {
         return id;
     }
@@ -58,5 +62,13 @@ public class BaoCao {
 
     public void setYeuCau(String yeuCau) {
         this.yeuCau = yeuCau;
+    }
+
+    public NguoiDung getNguoiDung() {
+        return nguoiDung;
+    }
+
+    public void setNguoiDung(NguoiDung nguoiDung) {
+        this.nguoiDung = nguoiDung;
     }
 }

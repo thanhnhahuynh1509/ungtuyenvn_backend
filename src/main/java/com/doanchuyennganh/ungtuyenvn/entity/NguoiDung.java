@@ -55,6 +55,8 @@ public class NguoiDung {
     @Column(columnDefinition = "TEXT")
     private String cv;
 
+    private boolean enabled = true;
+
     // Foreign Keys
     @ManyToOne
     @JoinColumn(name = "ma_loai")
@@ -265,5 +267,13 @@ public class NguoiDung {
 
     public void setCv(String cv) {
         this.cv = cv;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

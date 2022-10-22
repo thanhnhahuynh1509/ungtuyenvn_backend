@@ -13,6 +13,6 @@ public interface NguoiDungRepository extends JpaRepository<NguoiDung, Long> {
     Optional<NguoiDung> findByEmail(String email);
 
     @Override
-    @Query("SELECT n FROM NguoiDung n WHERE n.congKhai = true AND n.trangThai = 'Hoạt động'")
+    @Query("SELECT n FROM NguoiDung n WHERE n.congKhai = true AND n.trangThai = 'Hoạt động' AND n.enabled = true ORDER BY n.id DESC")
     List<NguoiDung> findAll();
 }
