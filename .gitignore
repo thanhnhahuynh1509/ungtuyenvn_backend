@@ -1,5 +1,8 @@
 HELP.md
 target/
+assets/common/cv
+assets/common/image/du_an
+assets/common/image/nguoi_dung
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
@@ -31,3 +34,5 @@ build/
 
 ### VS Code ###
 .vscode/
+
+

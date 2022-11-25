@@ -95,6 +95,13 @@ public class NguoiDung {
     @LazyCollection(LazyCollectionOption.FALSE)
     private Set<ChuyenMon> chuyenMons = new LinkedHashSet<>();
 
+    public NguoiDung() {
+    }
+
+    public NguoiDung(long id) {
+        this.id = id;
+    }
+
     public long getId() {
         return id;
     }
